@@ -1,7 +1,7 @@
 import argparse
 
 from mmcv import Config
-
+from torchstat import stat
 from mmdet.models import build_detector
 from mmdet.utils import get_model_complexity_info
 
@@ -35,6 +35,12 @@ def main():
         cfg.model, train_cfg=cfg.train_cfg, test_cfg=cfg.test_cfg).cuda()
     model.eval()
 
+    #stat(model, (3,1200,1200))
+    '''
+    import torch
+    num_parameters = sum(torch.numel(parameter) for parameter in model.parameters())
+    print(num_parameters)
+    '''
     if hasattr(model, 'forward_dummy'):
         model.forward = model.forward_dummy
     else:

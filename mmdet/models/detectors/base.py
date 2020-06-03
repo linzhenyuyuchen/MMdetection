@@ -10,6 +10,18 @@ from mmcv.utils import print_log
 from mmdet.core import auto_fp16
 
 
+# RGB list
+import seaborn as sns
+cp = sns.color_palette("bright",9)
+cp2 = []
+cp3 = []
+for i in range(len(cp)):
+    r,g,b = cp[i]
+    tmp = [int(r*255),int(g*255),int(b*255)]
+    tmp2 = (int(b*255),int(g*255),int(r*255))
+    cp2.append(np.array([tmp]).astype("uint8"))
+    cp3.append(tmp2)
+
 class BaseDetector(nn.Module, metaclass=ABCMeta):
     """Base class for detectors"""
 
@@ -155,8 +167,8 @@ class BaseDetector(nn.Module, metaclass=ABCMeta):
                     score_thr=0.3,
                     bbox_color='green',
                     text_color='green',
-                    thickness=1,
-                    font_scale=0.5,
+                    thickness=30,
+                    font_scale=8,
                     win_name='',
                     show=False,
                     wait_time=0,

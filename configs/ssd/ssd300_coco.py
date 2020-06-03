@@ -4,7 +4,7 @@ _base_ = [
 ]
 # dataset settings
 dataset_type = 'CocoDataset'
-data_root = 'data/coco/'
+data_root = '/home/coco/'
 img_norm_cfg = dict(mean=[123.675, 116.28, 103.53], std=[1, 1, 1], to_rgb=True)
 train_pipeline = [
     dict(type='LoadImageFromFile', to_float32=True),
@@ -52,7 +52,7 @@ data = dict(
         times=5,
         dataset=dict(
             type=dataset_type,
-            ann_file=data_root + 'annotations/instances_train2017.json',
+            ann_file=data_root + 'annotations/cocojson_train_1.json',
             img_prefix=data_root + 'train2017/',
             pipeline=train_pipeline)),
     val=dict(pipeline=test_pipeline),

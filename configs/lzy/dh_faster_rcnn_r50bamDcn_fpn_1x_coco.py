@@ -1,5 +1,17 @@
 _base_ = '../faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
 model = dict(
+    pretrained='torchvision://resnet50',
+    backbone=dict(
+        type='ResNetBam',
+        depth=50,
+        num_stages=4,
+        out_indices=(0, 1, 2, 3),
+        frozen_stages=1,
+        norm_cfg=dict(type='BN', requires_grad=True),
+        norm_eval=True,
+        dcn=dict(type='DCN', deformable_groups=1, fallback_on_stride=False),
+        stage_with_dcn=(False, True, True, True),
+        style='pytorch'),
     roi_head=dict(
         type='DoubleHeadRoIHead',
         reg_roi_scale_factor=1.3,

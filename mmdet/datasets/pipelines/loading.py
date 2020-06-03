@@ -7,6 +7,7 @@ import pycocotools.mask as maskUtils
 from mmdet.core import BitmapMasks, PolygonMasks
 from ..builder import PIPELINES
 
+import cv2
 
 @PIPELINES.register_module()
 class LoadImageFromFile(object):
@@ -22,6 +23,8 @@ class LoadImageFromFile(object):
         else:
             filename = results['img_info']['filename']
         img = mmcv.imread(filename, self.color_type)
+        
+
         if self.to_float32:
             img = img.astype(np.float32)
         results['filename'] = filename

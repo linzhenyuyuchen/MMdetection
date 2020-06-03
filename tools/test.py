@@ -106,6 +106,16 @@ def main():
         dist=distributed,
         shuffle=False)
 
+    if args.out and os.path.exists(args.out):
+        print(f'\nreading results from {args.out}')
+        outputs = mmcv.load(args.out)
+        kwargs = {} if args.options is None else args.options
+        if args.format_only:
+            dataset.format_results(outputs, **kwargs)
+        if args.eval:
+            dataset.evaluate(outputs, args.eval, **kwargs)
+        return
+    
     # build the model and load checkpoint
     model = build_detector(cfg.model, train_cfg=None, test_cfg=cfg.test_cfg)
     fp16_cfg = cfg.get('fp16', None)
@@ -120,6 +130,7 @@ def main():
         model.CLASSES = checkpoint['meta']['CLASSES']
     else:
         model.CLASSES = dataset.CLASSES
+
 
     if not distributed:
         model = MMDataParallel(model, device_ids=[0])
